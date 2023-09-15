@@ -1,0 +1,10 @@
+ngo\friendship\projecus\repo\StakeholderRepo.class
+ngo\friendship\projecus\config\SwaggerConfig.class
+ngo\friendship\projecus\controller\ProjecusController.class
+ngo\friendship\projecus\Application.class
+ngo\friendship\projecus\repo\ProjectRepo.class
+ngo\friendship\projecus\config\AppResponse.class
+ngo\friendship\projecus\controller\BaseController.class
+ngo\friendship\projecus\repo\SysEntityRepo.class
+ngo\friendship\projecus\service\ProjectService.class
+ngo\friendship\projecus\config\DBConfig.class

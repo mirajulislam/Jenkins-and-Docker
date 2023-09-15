@@ -1,0 +1,21 @@
+Project List View:
+
+Request Type : POST 
+URL: http://url:8080/projecus-gateway/projecus/get-filter-project
+Request Body:
+
+{
+    "project_activity_status": true,
+    "project_name":"IST",
+    "project_id": 53,
+    "project_code":"IST1234"
+}
+
+Project Wise Member View:
+Request Type : POST 
+URL: http://url:8080/projecus-gateway/projecus/get-project-member_list
+Request Body:
+
+{
+    "project_id": 44
+}
