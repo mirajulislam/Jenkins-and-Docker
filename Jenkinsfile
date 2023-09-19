@@ -12,14 +12,14 @@ pipeline {
                 script {
                     // Use the explicitly specified Git executable path
                     def checkoutCmd = """${GIT_EXECUTABLE} checkout -f ca5aaa4b7f224b8c245b2a6fc513de38bec1b1b0"""
-                    sh checkoutCmd
+                    bat checkoutCmd
                 }
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
 
