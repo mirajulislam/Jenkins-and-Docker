@@ -3,12 +3,17 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials') // Docker Hub credentials ID
+        GIT_EXECUTABLE = "C:\\Program Files\\Git\\bin\\git.exe"  // Specify the Git executable path
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                script {
+                    // Use the explicitly specified Git executable path
+                    def checkoutCmd = """${GIT_EXECUTABLE} checkout -f ca5aaa4b7f224b8c245b2a6fc513de38bec1b1b0"""
+                    sh checkoutCmd
+                }
             }
         }
 
