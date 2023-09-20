@@ -2,15 +2,13 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials') // Docker Hub credentials ID
+        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM',
-                          branches: [[name: 'main']], // Use 'main' branch
-                          userRemoteConfigs: [[url: 'https://github.com/mirajulislam/Jenkins-and-Docker.git']]]) // Use your repository URL
+                checkout scm
             }
         }
 
@@ -23,7 +21,8 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 script {
-                    def dockerImage = docker.build("mirajulislam/spring-boot-docker-jenkins-docker-hub:latest")
+                    def dockerImageName = "mirajulislam/simple-maven-test:latest"
+                    def dockerImage = docker.build(dockerImageName)
 
                     // Authenticate with Docker Hub using credentials
                     docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_CREDENTIALS) {

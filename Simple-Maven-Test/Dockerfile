@@ -5,7 +5,7 @@ FROM openjdk:8-jre-slim
 WORKDIR /app
 
 # Copy the JAR file into the container at /app
-COPY target/your-application.jar your-application.jar
+COPY target/Simple-Maven-Test-0.0.1-SNAPSHOT.jar Simple-Maven-Test-0.0.1-SNAPSHOT.jar
 
 # Copy your application.properties into the container at /app
 COPY src/main/resources/application.properties application.properties
