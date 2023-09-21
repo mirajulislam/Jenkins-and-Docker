@@ -29,7 +29,7 @@ pipeline {
                     def mvnCmd = "${mvnHome}/bin/mvn"
 
                     // Change the working directory to your project's root
-                    dir('Jenkins-and-Docker') {
+                    dir('https://github.com/mirajulislam/Jenkins-and-Docker/blob/main/Simple-Maven-Test/pom.xml') {
                         // Use "start" instead of "nohup" for Windows
                         bat "start ${mvnCmd} clean install"
                     }
