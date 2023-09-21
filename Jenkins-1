@@ -9,7 +9,7 @@ pipeline {
                     def githubRepoUrl = 'https://github.com/mirajulislam/Jenkins-and-Docker.git'
 
                     // Credentials ID for GitHub credentials configured in Jenkins
-                    def githubCredentialsId = 'your-github-credentials-id'
+                    def githubCredentialsId = 'git-hub'
 
                     // Perform a Git checkout using GitHub credentials
                     checkout([$class: 'GitSCM',
