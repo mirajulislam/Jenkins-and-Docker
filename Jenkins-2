@@ -24,8 +24,8 @@ pipeline {
         stage('Build Spring Boot Project') {
             steps {
                 script {
-                    // Build the Spring Boot project with Maven (using default settings.xml)
-                    sh 'mvn clean install'
+                    // Build the Spring Boot project with Maven using Windows "bat" command
+                    bat 'mvn clean install'
                 }
             }
         }
