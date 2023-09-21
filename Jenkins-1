@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout from GitHub') {
+            steps {
+                script {
+                    // Define the GitHub repository URL
+                    def githubRepoUrl = 'https://github.com/mirajulislam/Jenkins-and-Docker.git'
+
+                    // Credentials ID for GitHub credentials configured in Jenkins
+                    def githubCredentialsId = 'your-github-credentials-id'
+
+                    // Perform a Git checkout using GitHub credentials
+                    checkout([$class: 'GitSCM',
+                              branches: [[name: 'main']],
+                              userRemoteConfigs: [[
+                                  url: githubRepoUrl,
+                                  credentialsId: githubCredentialsId
+                              ]]])
+                }
+            }
+        }
+
+        stage('Hello, World!') {
+            steps {
+                echo 'Hello, World!'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
