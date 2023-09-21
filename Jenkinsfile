@@ -3,30 +3,35 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+        DOCKER_IMAGE_NAME = 'simple-maven-test'
+        DOCKERFILE_PATH = 'Dockerfile' // Path to your Dockerfile
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout from GitHub') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Build Maven Project') {
             steps {
-                bat 'mvn clean package'
+                sh 'mvn clean package'
             }
         }
 
-        stage('Docker Build & Push') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImageName = "mirajulislam/simple-maven-test:latest"
-                    def dockerImage = docker.build(dockerImageName)
+                    dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}", "--file ${DOCKERFILE_PATH} .")
+                }
+            }
+        }
 
-                    // Authenticate with Docker Hub using credentials
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_CREDENTIALS) {
-                        // Push the Docker image to Docker Hub
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                withDockerRegistry([credentialsId: "${DOCKER_HUB_CREDENTIALS}", url: 'https://index.docker.io/v1/']) {
+                    script {
                         dockerImage.push()
                     }
                 }
