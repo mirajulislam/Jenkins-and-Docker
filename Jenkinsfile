@@ -10,7 +10,21 @@ pipeline {
     stages {
         stage('Checkout from GitHub') {
             steps {
-                checkout scm
+                script {
+                    // Define the GitHub repository URL
+                    def githubRepoUrl = 'https://github.com/mirajulislam/Jenkins-and-Docker.git'
+
+                    // Credentials ID for GitHub credentials configured in Jenkins
+                    def githubCredentialsId = 'git-hub'
+
+                    // Perform a Git checkout using GitHub credentials
+                    checkout([$class: 'GitSCM',
+                              branches: [[name: 'main']],
+                              userRemoteConfigs: [[
+                                  url: githubRepoUrl,
+                                  credentialsId: githubCredentialsId
+                              ]]])
+                }
             }
         }
 
