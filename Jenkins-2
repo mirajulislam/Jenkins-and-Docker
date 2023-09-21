@@ -27,8 +27,11 @@ pipeline {
                     // Build the Spring Boot project with Maven using the managed settings.xml
                     def mvnHome = tool name: 'MAVEN', type: 'hudson.tasks.Maven$MavenInstallation'
                     def mvnCmd = "${mvnHome}/bin/mvn"
+                    // Change the working directory to your project's root
+                    dir('Jenkins-and-Docker') {
+                        sh "${mvnCmd} clean install"
+                    }
 
-                    sh "${mvnCmd} clean install -s ${JENKINS_HOME}/files/my-maven-settings.xml"
                 }
             }
         }
