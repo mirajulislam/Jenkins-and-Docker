@@ -29,7 +29,7 @@ pipeline {
                     def mvnCmd = "${mvnHome}/bin/mvn"
 
                     // Change the working directory to your project's root
-                    dir('C:\\Users\\user\\.jenkins\\workspace\\Jenkins-pipeline-github\\Simple-Maven-Test') {
+                    dir('C:\\Users\\user\\.jenkins\\workspace\\Jenkins-pipeline-github\\Simple-Maven-Test\\pom.xml') {
                         // Use "start" instead of "nohup" for Windows
                         sh "mvn clean install"
                     }
