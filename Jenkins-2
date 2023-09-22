@@ -1,12 +1,12 @@
 pipeline {
     agent any
 
-    environment {
-        // Define the Git repository URL and branch
-        GIT_REPO = 'https://github.com/mirajulislam/Jenkins-and-Docker.git'
-        GIT_BRANCH = 'main'
-        MAVEN_ARGS=" -e clean install"
-    }
+    // environment {
+    //     // Define the Git repository URL and branch
+    //     GIT_REPO = 'https://github.com/mirajulislam/Jenkins-and-Docker.git'
+    //     GIT_BRANCH = 'main'
+    //     MAVEN_ARGS=" -e clean install"
+    // }
 
     stages {
         // stage('Checkout from GitHub') {
@@ -45,7 +45,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def mvnHome = tool name: 'MAVEN', type: 'Tool'
+                    def mvnHome = tool name: 'MAVEN', type: 'hudson.tasks.Maven$MavenInstallation'
                     sh "${mvnHome}/bin/mvn clean package"
                 }
             }
