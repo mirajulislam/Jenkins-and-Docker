@@ -1,14 +1,22 @@
-pipeline { 
-    agent any  
-    stages { 
-        stage('Checkout') {
+pipeline {
+    agent any
+    tools { 
+        maven 'MAVEN' 
+        jdk 'Java 8' 
+    }
+    stages {
+        stage ('Initialize') {
             steps {
-                checkout scm
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                ''' 
             }
         }
-        stage('Build') { 
-            steps { 
-               echo 'This is a minimal pipeline.' 
+
+        stage ('Build') {
+            steps {
+                echo 'This is a minimal pipeline.'
             }
         }
     }
