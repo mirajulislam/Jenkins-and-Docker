@@ -89,7 +89,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def mvnCmd = bat(script: 'mvn clean package', returnStatus: true)
+                    def mvnCmd = bat(script: 'C:\\Windows\\System32\\cmd.exe /c mvn clean package', returnStatus: true)
                     if (mvnCmd != 0) {
                         error 'Maven build failed!'
                     }
