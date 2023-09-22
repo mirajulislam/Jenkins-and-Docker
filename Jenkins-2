@@ -1,42 +1,85 @@
+// pipeline {
+//     agent any
+
+//     // environment {
+//     //     // Define the Git repository URL and branch
+//     //     GIT_REPO = 'https://github.com/mirajulislam/Jenkins-and-Docker.git'
+//     //     GIT_BRANCH = 'main'
+//     //     MAVEN_ARGS=" -e clean install"
+//     // }
+
+//     stages {
+//         // stage('Checkout from GitHub') {
+//         //     steps {
+//         //         // Checkout the code from GitHub using your credentials
+//         //         checkout([$class: 'GitSCM',
+//         //             branches: [[name: GIT_BRANCH]],
+//         //             userRemoteConfigs: [[
+//         //                 url: GIT_REPO,
+//         //                 credentialsId: 'git-hub' // Use the GitHub credentials you've configured in Jenkins
+//         //             ]]
+//         //         ])
+//         //     }
+//         // }
+
+//         // stage('Build Spring Boot Project') {
+//         //     steps {
+//         //         script {
+//         //             // Build the Spring Boot project with Maven using the "MAVEN" tool configuration
+//         //             def mvnHome = tool name: 'MAVEN', type: 'hudson.tasks.Maven$MavenInstallation'
+//         //             def mvnCmd = "${mvnHome}/bin/mvn"
+
+//         //             // Change the working directory to your project's root
+//         //             dir('C:\\Users\\user\\.jenkins\\workspace\\Jenkins-pipeline-github\\Simple-Maven-Test') {
+//         //                 // Use "bat" for Windows
+//         //                 bat "${mvnCmd} clean install"
+//         //             }
+//         //         }
+//         //     }
+//         // }
+//         stage('Checkout') {
+//             steps {
+//                 checkout scm
+//             }
+//         }
+//         stage('Build') {
+//             steps {
+//                 script {
+//                     def mvnHome = tool name: 'MAVEN', type: 'hudson.tasks.Maven$MavenInstallation'
+//                     sh "${mvnHome}/bin/mvn clean package"
+//                 }
+//             }
+//         }
+//         // stage('Build') {
+//         //    steps {
+//         //        withMaven(maven: 'MAVEN') {
+//         //                 dir('C:\\Users\\user\\.jenkins\\workspace\\Jenkins-pipeline-github\\Simple-Maven-Test') {
+//         //                 sh "mvn ${MAVEN_ARGS}"
+//         //             }
+//         //             }
+//         //         }
+//         // }
+//     }
+
+//     post {
+//         success {
+//             echo 'Build successful!'
+//         }
+//         failure {
+//             echo 'Build failed!'
+//         }
+//     }
+// }
+
 pipeline {
     agent any
 
-    // environment {
-    //     // Define the Git repository URL and branch
-    //     GIT_REPO = 'https://github.com/mirajulislam/Jenkins-and-Docker.git'
-    //     GIT_BRANCH = 'main'
-    //     MAVEN_ARGS=" -e clean install"
-    // }
+    tools {
+        // Use Java 8 for this specific stage
+        jdk 'Java 8'
+    }
 
     stages {
-        // stage('Checkout from GitHub') {
-        //     steps {
-        //         // Checkout the code from GitHub using your credentials
-        //         checkout([$class: 'GitSCM',
-        //             branches: [[name: GIT_BRANCH]],
-        //             userRemoteConfigs: [[
-        //                 url: GIT_REPO,
-        //                 credentialsId: 'git-hub' // Use the GitHub credentials you've configured in Jenkins
-        //             ]]
-        //         ])
-        //     }
-        // }
-
-        // stage('Build Spring Boot Project') {
-        //     steps {
-        //         script {
-        //             // Build the Spring Boot project with Maven using the "MAVEN" tool configuration
-        //             def mvnHome = tool name: 'MAVEN', type: 'hudson.tasks.Maven$MavenInstallation'
-        //             def mvnCmd = "${mvnHome}/bin/mvn"
-
-        //             // Change the working directory to your project's root
-        //             dir('C:\\Users\\user\\.jenkins\\workspace\\Jenkins-pipeline-github\\Simple-Maven-Test') {
-        //                 // Use "bat" for Windows
-        //                 bat "${mvnCmd} clean install"
-        //             }
-        //         }
-        //     }
-        // }
         stage('Checkout') {
             steps {
                 checkout scm
@@ -45,20 +88,12 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def mvnHome = tool name: 'MAVEN', type: 'hudson.tasks.Maven$MavenInstallation'
-                    sh "${mvnHome}/bin/mvn clean package"
+                    def mvnHome = tool name: 'MAVEN', type: 'Tool'
+                    def javaHome = tool name: 'Java 8', type: 'jdk'
+                    sh "export JAVA_HOME=${javaHome} && ${mvnHome}/bin/mvn clean package"
                 }
             }
         }
-        // stage('Build') {
-        //    steps {
-        //        withMaven(maven: 'MAVEN') {
-        //                 dir('C:\\Users\\user\\.jenkins\\workspace\\Jenkins-pipeline-github\\Simple-Maven-Test') {
-        //                 sh "mvn ${MAVEN_ARGS}"
-        //             }
-        //             }
-        //         }
-        // }
     }
 
     post {
@@ -70,3 +105,4 @@ pipeline {
         }
     }
 }
+
