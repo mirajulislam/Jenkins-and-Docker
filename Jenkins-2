@@ -9,18 +9,18 @@ pipeline {
     }
 
     stages {
-        stage('Checkout from GitHub') {
-            steps {
-                // Checkout the code from GitHub using your credentials
-                checkout([$class: 'GitSCM',
-                    branches: [[name: GIT_BRANCH]],
-                    userRemoteConfigs: [[
-                        url: GIT_REPO,
-                        credentialsId: 'git-hub' // Use the GitHub credentials you've configured in Jenkins
-                    ]]
-                ])
-            }
-        }
+        // stage('Checkout from GitHub') {
+        //     steps {
+        //         // Checkout the code from GitHub using your credentials
+        //         checkout([$class: 'GitSCM',
+        //             branches: [[name: GIT_BRANCH]],
+        //             userRemoteConfigs: [[
+        //                 url: GIT_REPO,
+        //                 credentialsId: 'git-hub' // Use the GitHub credentials you've configured in Jenkins
+        //             ]]
+        //         ])
+        //     }
+        // }
 
         // stage('Build Spring Boot Project') {
         //     steps {
@@ -37,15 +37,28 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Build') {
-           steps {
-               withMaven(maven: 'MAVEN') {
-                        dir('C:\\Users\\user\\.jenkins\\workspace\\Jenkins-pipeline-github\\Simple-Maven-Test') {
-                        sh "mvn ${MAVEN_ARGS}"
-                    }
-                    }
-                }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
         }
+        stage('Build') {
+            steps {
+                script {
+                    def mvnHome = tool name: 'MAVEN', type: 'Tool'
+                    sh "${mvnHome}/bin/mvn clean package"
+                }
+            }
+        }
+        // stage('Build') {
+        //    steps {
+        //        withMaven(maven: 'MAVEN') {
+        //                 dir('C:\\Users\\user\\.jenkins\\workspace\\Jenkins-pipeline-github\\Simple-Maven-Test') {
+        //                 sh "mvn ${MAVEN_ARGS}"
+        //             }
+        //             }
+        //         }
+        // }
     }
 
     post {
