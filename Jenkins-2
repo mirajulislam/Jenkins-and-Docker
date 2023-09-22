@@ -77,6 +77,7 @@ pipeline {
     tools {
         // Use Java 8 for this specific stage
         jdk 'Java 8'
+        maven 'MAVEN'
     }
 
     stages {
@@ -88,7 +89,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def mvnHome = tool name: 'MAVEN', type: 'Tool'
+                    def mvnHome = tool name: 'MAVEN', type: 'Maven'
                     def javaHome = tool name: 'Java 8', type: 'jdk'
                     sh "export JAVA_HOME=${javaHome} && ${mvnHome}/bin/mvn clean package"
                 }
