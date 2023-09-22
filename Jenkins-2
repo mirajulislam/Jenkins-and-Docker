@@ -74,10 +74,10 @@
 pipeline {
     agent any
 
-    tools {
-        // Use Java 8 for this specific stage
-        jdk 'Java 8'
-        maven 'MAVEN'
+    environment {
+        JAVA_HOME = 'C:\\Program Files\\Java\\jdk1.8.0_151'
+        MAVEN_HOME = 'C:\\apache-maven-3.9.4'
+        PATH = "${JAVA_HOME}\\bin;${MAVEN_HOME}\\bin;${env.PATH}"
     }
 
     stages {
@@ -89,9 +89,10 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def mvnHome = tool name: 'MAVEN', type: 'Maven'
-                    def javaHome = tool name: 'Java 8', type: 'jdk'
-                    sh "export JAVA_HOME=${javaHome} && ${mvnHome}/bin/mvn clean package"
+                    def mvnCmd = bat(script: 'mvn clean package', returnStatus: true)
+                    if (mvnCmd != 0) {
+                        error 'Maven build failed!'
+                    }
                 }
             }
         }
