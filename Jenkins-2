@@ -5,6 +5,7 @@ pipeline {
         // Define the Git repository URL and branch
         GIT_REPO = 'https://github.com/mirajulislam/Jenkins-and-Docker.git'
         GIT_BRANCH = 'main'
+        MAVEN_ARGS=" -e clean install"
     }
 
     stages {
@@ -21,22 +22,13 @@ pipeline {
             }
         }
 
-        stage('Build Spring Boot Project') {
-            steps {
-                script {
-                    // Build the Spring Boot project with Maven using the "MAVEN" tool configuration
-                    def mvnHome = tool name: 'MAVEN', type: 'hudson.tasks.Maven$MavenInstallation'
-                    def mvnCmd = "${mvnHome}/bin/mvn"
-
-                    // Change the working directory to your project's root
-                    dir('C:\\Users\\user\\.jenkins\\workspace\\Jenkins-pipeline-github\\Simple-Maven-Test') {
-                        // Use "bat" for Windows
-                        bat "${mvnCmd} clean install"
+        stage('Build') {
+           steps {
+               withMaven(maven: 'MAVEN') {
+                        sh "mvn ${MAVEN_ARGS}"
                     }
                 }
-            }
         }
-    }
 
     post {
         success {
