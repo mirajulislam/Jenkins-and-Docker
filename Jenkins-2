@@ -40,7 +40,9 @@ pipeline {
         stage('Build') {
            steps {
                withMaven(maven: 'MAVEN') {
+                        dir('C:\\Users\\user\\.jenkins\\workspace\\Jenkins-pipeline-github\\Simple-Maven-Test') {
                         sh "mvn ${MAVEN_ARGS}"
+                    }
                     }
                 }
         }
