@@ -1,20 +1,23 @@
 pipeline {
     agent any
-        environment {
-         PATH = "C:/apache-maven-3.9.4/bin:$PATH"
+    environment {
+        PATH = "C:/apache-maven-3.9.4/bin:$PATH"
     }
 
     stages {
-        stage('Checkout from GitHub') {
+        stage('Checkout') {
             steps {
-                git credentialsId: 'git-hub', url: 'https://github.com/mirajulislam/Jenkins-and-Docker.git'
+                checkout scm
             }
         }
-        stage('build'){
-            steps{
-                bat '''
-                echo mvn clean install
-                '''
+        stage('Build') {
+            steps {
+                script {
+                    def WORKSPACE_DIR = env.WORKSPACE+'\\'+'Simple-Maven-Test'
+                    dir(WORKSPACE_DIR) {
+                        bat 'mvn clean install'
+                    }
+                }
             }
         }
     }
