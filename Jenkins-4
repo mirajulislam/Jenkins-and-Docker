@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+        environment {
+         PATH = "C:/apache-maven-3.9.4/bin:$PATH"
+    }
+
+    stages {
+        stage('Checkout from GitHub') {
+            steps {
+                git credentialsId: 'git-hub', url: 'https://github.com/mirajulislam/Jenkins-and-Docker.git'
+            }
+        }
+        stage('build'){
+            steps{
+                bat '''
+                echo mvn clean install
+                '''
+            }
+        }
+    }
+}
