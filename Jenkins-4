@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         PATH = "C:/apache-maven-3.9.4/bin:$PATH"
+        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials') 
     }
 
     stages {
@@ -15,8 +16,25 @@ pipeline {
                 script {
                     def WORKSPACE_DIR = env.WORKSPACE+'\\'+'Simple-Maven-Test'
                     dir(WORKSPACE_DIR) {
-                        bat 'mvn clean install'
+                        // bat 'mvn clean install'
+                        bat 'mvn clean package'
                     }
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Define the Docker image name and tag
+                    def dockerImage = "mirajulislam/simple-maven-test:latest"
+                    
+                    // Build the Docker image using the Dockerfile
+                    docker.build(dockerImage, "-f Dockerfile .")
+
+                    // Push the Docker image to a container registry (if needed)
+                    // docker.withRegistry('https://registry.example.com', 'registry-credentials') {
+                    //     dockerImage.push()
+                    // }
                 }
             }
         }
