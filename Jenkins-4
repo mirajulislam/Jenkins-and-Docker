@@ -21,17 +21,30 @@ pipeline {
                 }
             }
         }
-        stage('Build Docker Image') {
+        stage('Test Docker') {
             steps {
                 script {
-                    // Define the Docker image name and tag
-                    def dockerFileDir = env.WORKSPACE+'\\'+'Simple-Maven-Test'
-                    def dockerImage = "mirajulislam/simple-maven-test:latest"
-                    // Build Docker image using Dockerfile and tag it
-                    bat "docker build -t ${dockerImage} -f Dockerfile ."
+                    def dockerVersion = bat(script: 'docker --version', returnStatus: true)
+                    if (dockerVersion == 0) {
+                        echo 'Docker is recognized.'
+                    } else {
+                        error 'Docker is not recognized.'
+                    }
                 }
             }
         }
+
+        // stage('Build Docker Image') {
+        //     steps {
+        //         script {
+        //             // Define the Docker image name and tag
+        //             def dockerFileDir = env.WORKSPACE+'\\'+'Simple-Maven-Test'
+        //             def dockerImage = "mirajulislam/simple-maven-test:latest"
+        //             // Build Docker image using Dockerfile and tag it
+        //             bat "docker build -t ${dockerImage} -f Dockerfile ."
+        //         }
+        //     }
+        // }
     }
 }
 
